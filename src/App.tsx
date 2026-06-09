@@ -7,6 +7,7 @@ import { EventCard } from "@/components/event-card"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { LucideIcon } from "lucide-react"
 import {
   Users, TrendingUp, Award, Clock, DollarSign, BarChart2,
   Calendar, BookOpen, HelpCircle, FileText, ShieldCheck, Laptop,
@@ -18,7 +19,7 @@ import {
 } from "@/lib/queries"
 import { urlFor } from "@/lib/sanity"
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, LucideIcon> = {
   Users, TrendingUp, Award, Clock, DollarSign, BarChart2,
   Calendar, BookOpen, HelpCircle, FileText, ShieldCheck, Laptop,
   Mail, Settings, Link,
