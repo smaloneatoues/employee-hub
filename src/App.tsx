@@ -103,7 +103,7 @@ export default function App() {
             { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "#" },
             { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#" },
             { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "#" },
-            { label: "IT Help Desk", description: "Technical support", icon: Laptop, href: "#" },
+            { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "#" },
           ].map((action) => (
             <a
               key={action.label}
