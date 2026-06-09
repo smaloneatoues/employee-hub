@@ -47,6 +47,10 @@ export default function App() {
   const [stats, setStats] = useState<Stat[]>([])
   const [loading, setLoading] = useState(true)
 
+  const hour = new Date().getHours()
+  const greeting =
+    hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening"
+
   useEffect(() => {
     Promise.all([
       getAnnouncements(),
@@ -93,7 +97,7 @@ export default function App() {
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-semibold tracking-tight">Good morning, Sean</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{greeting}</h1>
           <p className="text-sm text-muted-foreground mt-1">Here's what's happening across OUES today.</p>
         </div>
 
@@ -108,6 +112,8 @@ export default function App() {
             <a
               key={action.label}
               href={action.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-start gap-3 rounded-xl bg-primary p-4 text-primary-foreground transition-opacity hover:opacity-90"
             >
               <action.icon className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
