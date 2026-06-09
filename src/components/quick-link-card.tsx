@@ -11,7 +11,6 @@ interface QuickLinkCardProps {
 
 export function QuickLinkCard({
   title,
-  description,
   href,
   icon: Icon,
   iconBg = "bg-primary/10",
