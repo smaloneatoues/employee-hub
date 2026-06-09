@@ -120,22 +120,24 @@ export default function App() {
         </div>
 
         {/* Stats row */}
-        {(loading || stats.length > 0) && (
-          <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {loading
-              ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-32" />)
-              : stats.map((s) => (
-                  <StatsCard
-                    key={s._id}
-                    title={s.title}
-                    value={s.value}
-                    change={s.change ?? ""}
-                    changePositive={s.changePositive}
-                    icon={ICON_MAP[s.icon] ?? Users}
-                  />
-                ))}
-          </div>
-        )}
+        <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-32" />)
+            : stats.length > 0
+            ? stats.map((s) => (
+                <StatsCard
+                  key={s._id}
+                  title={s.title}
+                  value={s.value}
+                  change={s.change ?? ""}
+                  changePositive={s.changePositive}
+                  icon={ICON_MAP[s.icon] ?? Users}
+                />
+              ))
+            : Array.from({ length: 4 }).map((_, i) => (
+                <StatsCard key={i} title="" value="" change="" icon={Users} />
+              ))}
+        </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left column */}
