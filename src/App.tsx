@@ -103,7 +103,7 @@ export default function App() {
             { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u" },
             { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#" },
             { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals" },
-            { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "#" },
+            { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2FzRvwcc_6xJj-43KcbQEExUMUExU0JCWktQVE9LOUpQWU8zWlI1UzdONy4u" },
           ].map((action) => (
             <a
               key={action.label}
