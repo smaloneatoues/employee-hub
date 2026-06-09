@@ -6,4 +6,7 @@ export default defineCliConfig({
     dataset: "production",
   },
   studioHost: "oues-employee-hub",
+  deployment: {
+    appId: "i6va96fyo5jskt1me2fr5shp",
+  },
 })
