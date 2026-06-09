@@ -76,9 +76,9 @@ export default function App() {
           <div className="flex h-14 items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
-                E
+                H
               </div>
-              <span className="font-semibold text-sm text-foreground">OUES Employee Hub</span>
+              <span className="font-semibold text-sm text-foreground">OUES Helio</span>
             </div>
             <div className="flex items-center gap-3">
               <button className="relative rounded-full p-1.5 text-muted-foreground hover:text-foreground transition-colors">
