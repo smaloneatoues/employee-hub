@@ -67,24 +67,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-primary text-primary-foreground">
+      <header className="sticky top-0 z-10 border-b bg-card">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-primary-foreground text-sm font-bold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
                 E
               </div>
-              <span className="font-semibold text-sm">OUES Employee Hub</span>
+              <span className="font-semibold text-sm text-foreground">OUES Employee Hub</span>
             </div>
             <div className="flex items-center gap-3">
-              <button className="relative rounded-full p-1.5 text-primary-foreground/70 hover:text-primary-foreground transition-colors">
+              <button className="relative rounded-full p-1.5 text-muted-foreground hover:text-foreground transition-colors">
                 <Bell className="h-5 w-5" />
               </button>
               <div className="flex items-center gap-2 text-sm">
-                <div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs font-medium text-primary-foreground">
+                <div className="h-7 w-7 rounded-full bg-accent flex items-center justify-center text-xs font-medium text-accent-foreground">
                   SM
                 </div>
-                <span className="hidden sm:inline text-primary-foreground/80">Sean Malone</span>
+                <span className="hidden sm:inline text-muted-foreground">Sean Malone</span>
               </div>
             </div>
           </div>
@@ -94,7 +94,29 @@ export default function App() {
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold tracking-tight">Good morning, Sean</h1>
-          <p className="text-sm text-muted-foreground mt-1">Here's what's happening across the organisation today.</p>
+          <p className="text-sm text-muted-foreground mt-1">Here's what's happening across OUES today.</p>
+        </div>
+
+        {/* Quick actions */}
+        <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {[
+            { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "#" },
+            { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#" },
+            { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "#" },
+            { label: "IT Help Desk", description: "Technical support", icon: Laptop, href: "#" },
+          ].map((action) => (
+            <a
+              key={action.label}
+              href={action.href}
+              className="flex items-start gap-3 rounded-xl bg-primary p-4 text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              <action.icon className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
+              <div>
+                <p className="text-sm font-semibold leading-tight">{action.label}</p>
+                <p className="mt-0.5 text-xs opacity-70">{action.description}</p>
+              </div>
+            </a>
+          ))}
         </div>
 
         {/* Stats row */}
