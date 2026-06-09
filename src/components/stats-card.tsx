@@ -16,7 +16,7 @@ export function StatsCard({
   change,
   changePositive = true,
   icon: Icon,
-  iconColor = "text-primary",
+  iconColor = "text-accent-foreground",
 }: StatsCardProps) {
   return (
     <Card>
@@ -29,7 +29,7 @@ export function StatsCard({
               {change}
             </p>
           </div>
-          <div className={`rounded-lg bg-muted p-2 ${iconColor}`}>
+          <div className={`rounded-lg bg-accent p-2 ${iconColor}`}>
             <Icon className="h-5 w-5" />
           </div>
         </div>

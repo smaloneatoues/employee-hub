@@ -67,24 +67,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-10 bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-primary-foreground text-sm font-bold">
                 E
               </div>
-              <span className="font-semibold text-sm">Employee Hub</span>
+              <span className="font-semibold text-sm">OUES Employee Hub</span>
             </div>
             <div className="flex items-center gap-3">
-              <button className="relative rounded-full p-1.5 text-muted-foreground hover:text-foreground transition-colors">
+              <button className="relative rounded-full p-1.5 text-primary-foreground/70 hover:text-primary-foreground transition-colors">
                 <Bell className="h-5 w-5" />
               </button>
               <div className="flex items-center gap-2 text-sm">
-                <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center text-xs font-medium text-primary">
+                <div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs font-medium text-primary-foreground">
                   SM
                 </div>
-                <span className="hidden sm:inline text-muted-foreground">Sean Malone</span>
+                <span className="hidden sm:inline text-primary-foreground/80">Sean Malone</span>
               </div>
             </div>
           </div>
