@@ -40,6 +40,15 @@ export interface QuickLink {
   order: number
 }
 
+export interface SupportArea {
+  _id: string
+  title: string
+  description: string
+  url: string
+  icon: string
+  order: number
+}
+
 export interface Stat {
   _id: string
   title: string
@@ -72,6 +81,12 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 export async function getQuickLinks(): Promise<QuickLink[]> {
   return client.fetch(
     `*[_type == "quickLink"] | order(order asc) { _id, title, description, url, icon }`
+  )
+}
+
+export async function getSupportAreas(): Promise<SupportArea[]> {
+  return client.fetch(
+    `*[_type == "supportArea"] | order(order asc) { _id, title, description, url, icon }`
   )
 }
 

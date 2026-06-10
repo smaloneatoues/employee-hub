@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { Link as RouterLink } from "react-router-dom"
+import { SiteHeader } from "@/components/site-header"
 import { StatsCard } from "@/components/stats-card"
 import { AnnouncementCard } from "@/components/announcement-card"
 import { TeamMemberCard } from "@/components/team-member-card"
@@ -11,7 +13,7 @@ import type { LucideIcon } from "lucide-react"
 import {
   Users, TrendingUp, Award, Clock, DollarSign, BarChart2,
   Calendar, BookOpen, HelpCircle, FileText, ShieldCheck, Laptop,
-  Mail, Settings, Link, Bell,
+  Mail, Settings, Link,
 } from "lucide-react"
 import {
   getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getStats,
@@ -70,30 +72,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-card">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-14 items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
-                H
-              </div>
-              <span className="font-semibold text-sm text-foreground">OUES Helio</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="relative rounded-full p-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                <Bell className="h-5 w-5" />
-              </button>
-              <div className="flex items-center gap-2 text-sm">
-                <div className="h-7 w-7 rounded-full bg-accent flex items-center justify-center text-xs font-medium text-accent-foreground">
-                  SM
-                </div>
-                <span className="hidden sm:inline text-muted-foreground">Sean Malone</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6">
@@ -104,25 +83,38 @@ export default function App() {
         {/* Quick actions */}
         <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {[
-            { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u" },
-            { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#" },
-            { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals" },
-            { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2FzRvwcc_6xJj-43KcbQEExUMUExU0JCWktQVE9LOUpQWU8zWlI1UzdONy4u" },
-          ].map((action) => (
-            <a
-              key={action.label}
-              href={action.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-start gap-3 rounded-xl bg-primary p-4 text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              <action.icon className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
-              <div>
-                <p className="text-sm font-semibold leading-tight">{action.label}</p>
-                <p className="mt-0.5 text-xs opacity-70">{action.description}</p>
-              </div>
-            </a>
-          ))}
+            { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u", internal: false },
+            { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#", internal: false },
+            { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "/support", internal: true },
+            { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2FzRvwcc_6xJj-43KcbQEExUMUExU0JCWktQVE9LOUpQWU8zWlI1UzdONy4u", internal: false },
+          ].map((action) => {
+            const cardClass =
+              "flex items-start gap-3 rounded-xl bg-primary p-4 text-primary-foreground transition-opacity hover:opacity-90"
+            const inner = (
+              <>
+                <action.icon className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
+                <div>
+                  <p className="text-sm font-semibold leading-tight">{action.label}</p>
+                  <p className="mt-0.5 text-xs opacity-70">{action.description}</p>
+                </div>
+              </>
+            )
+            return action.internal ? (
+              <RouterLink key={action.label} to={action.href} className={cardClass}>
+                {inner}
+              </RouterLink>
+            ) : (
+              <a
+                key={action.label}
+                href={action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClass}
+              >
+                {inner}
+              </a>
+            )
+          })}
         </div>
 
         {/* Stats row */}
