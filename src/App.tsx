@@ -89,7 +89,7 @@ export default function App() {
           {[
             { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u", internal: false },
             { label: "Request Time Off", description: "PTO and leave requests", icon: Calendar, href: "#", internal: false },
-            { label: "OneDesk Support", description: "IT, HR, and facilities", icon: HelpCircle, href: "/support", internal: true },
+            { label: "OneDesk Support", description: "IT, Ops, and PMO", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals", internal: false },
             { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2FzRvwcc_6xJj-43KcbQEExUMUExU0JCWktQVE9LOUpQWU8zWlI1UzdONy4u", internal: false },
           ].map((action) => {
             const cardClass =
