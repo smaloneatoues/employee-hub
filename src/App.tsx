@@ -15,9 +15,10 @@ import {
   Calendar, BookOpen, HelpCircle, FileText, ShieldCheck, Laptop,
   Mail, Settings, Link,
 } from "lucide-react"
+import { Newspaper, ArrowRight } from "lucide-react"
 import {
-  getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getStats,
-  type Announcement, type Event, type TeamMember, type QuickLink, type Stat,
+  getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getStats, getLatestNewsletter,
+  type Announcement, type Event, type TeamMember, type QuickLink, type Stat, type NewsletterListItem,
 } from "@/lib/queries"
 import { urlFor } from "@/lib/sanity"
 
@@ -47,6 +48,7 @@ export default function App() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [quickLinks, setQuickLinks] = useState<QuickLink[]>([])
   const [stats, setStats] = useState<Stat[]>([])
+  const [latestNewsletter, setLatestNewsletter] = useState<NewsletterListItem | null>(null)
   const [loading, setLoading] = useState(true)
 
   const hour = new Date().getHours()
@@ -60,12 +62,14 @@ export default function App() {
       getTeamMembers(),
       getQuickLinks(),
       getStats(),
-    ]).then(([a, e, t, q, s]) => {
+      getLatestNewsletter(),
+    ]).then(([a, e, t, q, s, n]) => {
       setAnnouncements(a)
       setEvents(e)
       setTeamMembers(t)
       setQuickLinks(q)
       setStats(s)
+      setLatestNewsletter(n)
       setLoading(false)
     })
   }, [])
@@ -140,6 +144,29 @@ export default function App() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left column */}
           <div className="lg:col-span-2 flex flex-col gap-6">
+            {/* Latest management newsletter */}
+            {!loading && latestNewsletter && (
+              <RouterLink
+                to={`/newsletter/${latestNewsletter._id}`}
+                className="group flex flex-col gap-2 rounded-xl border-2 border-primary/20 bg-card p-5 transition-colors hover:border-primary/50"
+              >
+                <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-primary">
+                  <Newspaper className="h-4 w-4" />
+                  Management Newsletter ·{" "}
+                  {new Date(latestNewsletter.publishedAt + "T00:00:00").toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </div>
+                <p className="font-semibold leading-snug">{latestNewsletter.title}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2">{latestNewsletter.summary}</p>
+                <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                  Read the latest edition
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </RouterLink>
+            )}
+
             <section>
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="font-semibold">Announcements</h2>

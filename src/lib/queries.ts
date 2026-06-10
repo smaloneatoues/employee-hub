@@ -49,6 +49,18 @@ export interface SupportArea {
   order: number
 }
 
+export interface NewsletterListItem {
+  _id: string
+  title: string
+  publishedAt: string
+  author?: string
+  summary: string
+}
+
+export interface Newsletter extends NewsletterListItem {
+  body: unknown[]
+}
+
 export interface Stat {
   _id: string
   title: string
@@ -87,6 +99,25 @@ export async function getQuickLinks(): Promise<QuickLink[]> {
 export async function getSupportAreas(): Promise<SupportArea[]> {
   return client.fetch(
     `*[_type == "supportArea"] | order(order asc) { _id, title, description, url, icon }`
+  )
+}
+
+export async function getNewsletters(): Promise<NewsletterListItem[]> {
+  return client.fetch(
+    `*[_type == "newsletter"] | order(publishedAt desc) { _id, title, publishedAt, author, summary }`
+  )
+}
+
+export async function getNewsletter(id: string): Promise<Newsletter | null> {
+  return client.fetch(
+    `*[_type == "newsletter" && _id == $id][0] { _id, title, publishedAt, author, summary, body }`,
+    { id }
+  )
+}
+
+export async function getLatestNewsletter(): Promise<NewsletterListItem | null> {
+  return client.fetch(
+    `*[_type == "newsletter"] | order(publishedAt desc)[0] { _id, title, publishedAt, author, summary }`
   )
 }
 

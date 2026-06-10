@@ -4,5 +4,6 @@ import teamMember from "./teamMember"
 import quickLink from "./quickLink"
 import stat from "./stat"
 import supportArea from "./supportArea"
+import newsletter from "./newsletter"
 
-export const schemaTypes = [announcement, event, teamMember, quickLink, stat, supportArea]
+export const schemaTypes = [announcement, event, teamMember, quickLink, stat, supportArea, newsletter]
