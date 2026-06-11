@@ -228,6 +228,7 @@ export default function App() {
                           description={l.description}
                           href={l.url}
                           icon={ICON_MAP[l.icon] ?? Link}
+                          logoSrc={l.icon === "OU" ? "/ou-logo.png" : undefined}
                         />
                       ))}
                     </div>

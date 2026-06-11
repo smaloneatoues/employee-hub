@@ -7,6 +7,7 @@ interface QuickLinkCardProps {
   href: string
   icon: LucideIcon
   iconBg?: string
+  logoSrc?: string
 }
 
 export function QuickLinkCard({
@@ -14,6 +15,7 @@ export function QuickLinkCard({
   href,
   icon: Icon,
   iconBg = "bg-accent",
+  logoSrc,
 }: QuickLinkCardProps) {
   return (
     <a
@@ -22,9 +24,15 @@ export function QuickLinkCard({
       rel="noopener noreferrer"
       className="group flex items-center gap-3.5 rounded-2xl border bg-card p-4 shadow-xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
     >
-      <div className={`rounded-xl p-2.5 ${iconBg} shrink-0 text-accent-foreground`}>
-        <Icon className="h-5 w-5" />
-      </div>
+      {logoSrc ? (
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white p-1.5">
+          <img src={logoSrc} alt="" className="h-full w-full object-contain" />
+        </div>
+      ) : (
+        <div className={`rounded-xl p-2.5 ${iconBg} shrink-0 text-accent-foreground`}>
+          <Icon className="h-5 w-5" />
+        </div>
+      )}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{title}</p>
       </div>

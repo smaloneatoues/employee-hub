@@ -15,6 +15,7 @@ export default defineType({
       description: "Lucide icon name (e.g. Calendar, BookOpen, HelpCircle, FileText, ShieldCheck, Laptop)",
       options: {
         list: [
+          { title: "OU Logo", value: "OU" },
           { title: "Calendar", value: "Calendar" },
           { title: "Book (Learning)", value: "BookOpen" },
           { title: "Help / Support", value: "HelpCircle" },
