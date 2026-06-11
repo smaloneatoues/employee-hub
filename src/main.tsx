@@ -24,6 +24,9 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/documents" element={<DocumentsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <footer className="mx-auto w-full max-w-7xl px-4 pb-5 sm:px-6 lg:px-8">
+        <p className="text-left text-xs text-muted-foreground/70">Developed By Sean</p>
+      </footer>
     </BrowserRouter>
   </StrictMode>,
 )
