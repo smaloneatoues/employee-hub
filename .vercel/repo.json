@@ -1,0 +1,11 @@
+{
+  "remoteName": "origin",
+  "projects": [
+    {
+      "id": "prj_u2JD7pR5fwuVtNRX44rjqMvL58ai",
+      "name": "employee-hub",
+      "directory": ".",
+      "orgId": "team_d7WprtuVmgADlGdPWfMA4CW4"
+    }
+  ]
+}
