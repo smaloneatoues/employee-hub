@@ -13,7 +13,7 @@ import {
 const CATEGORIES = ["HR", "IT", "Management", "General"]
 
 const fieldClass =
-  "w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+  "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 
 export function AskQuestionDialog() {
   const [open, setOpen] = useState(false)

@@ -35,7 +35,7 @@ export default function DocumentsPage() {
       <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="mb-4 -mx-2.5 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Helio
@@ -84,7 +84,7 @@ export default function DocumentsPage() {
                   <button
                     key={c}
                     onClick={() => setCategory(c)}
-                    className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                    className={`shrink-0 cursor-pointer rounded-full px-4 py-2 text-sm transition-colors ${
                       category === c
                         ? "bg-primary font-medium text-primary-foreground"
                         : "border bg-card text-muted-foreground hover:text-foreground"

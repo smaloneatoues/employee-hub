@@ -255,8 +255,8 @@ export default function App() {
                   <h2 className="mb-4 text-xl font-semibold tracking-tight">Team Directory</h2>
                   <Tabs defaultValue="all">
                     <TabsList className="mb-3 w-full">
-                      <TabsTrigger value="all" className="flex-1 text-xs">All</TabsTrigger>
-                      <TabsTrigger value="available" className="flex-1 text-xs">Available</TabsTrigger>
+                      <TabsTrigger value="all" className="flex-1 text-sm">All</TabsTrigger>
+                      <TabsTrigger value="available" className="flex-1 text-sm">Available</TabsTrigger>
                     </TabsList>
                     {["all", "available"].map((tab) => (
                       <TabsContent key={tab} value={tab}>

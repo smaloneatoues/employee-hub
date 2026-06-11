@@ -16,7 +16,7 @@ function NavPills({ className }: { className?: string }) {
           to={item.to}
           end={item.to === "/"}
           className={({ isActive }) =>
-            `shrink-0 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+            `shrink-0 rounded-full px-4 py-2 text-sm transition-colors ${
               isActive
                 ? "bg-accent font-medium text-accent-foreground"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
