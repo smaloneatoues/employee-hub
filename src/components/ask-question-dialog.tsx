@@ -58,11 +58,13 @@ export function AskQuestionDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex cursor-pointer items-start gap-3 rounded-xl bg-primary p-4 text-left text-primary-foreground transition-opacity hover:opacity-90">
-          <HelpCircle className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
+        <button className="flex cursor-pointer items-start gap-3.5 rounded-2xl bg-primary p-5 text-left text-primary-foreground shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+          <div className="rounded-lg bg-white/15 p-2">
+            <HelpCircle className="h-4.5 w-4.5" />
+          </div>
           <div>
             <p className="text-sm font-semibold leading-tight">Submit a Question</p>
-            <p className="mt-0.5 text-xs opacity-70">Ask HR, IT, or management</p>
+            <p className="mt-1 text-xs opacity-70">Ask HR, IT, or management</p>
           </div>
         </button>
       </DialogTrigger>

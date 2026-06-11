@@ -69,7 +69,7 @@ export default function SectionPage() {
                     {formatNewsletterDate(post.publishedAt)}
                     {post.author ? ` · ${post.author}` : ""}
                   </p>
-                  <p className="mt-1 font-semibold leading-snug">{post.title}</p>
+                  <p className="mt-1 font-heading text-lg font-semibold leading-snug">{post.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{post.summary}</p>
                 </div>
                 <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />

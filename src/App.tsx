@@ -55,34 +55,47 @@ export default function App() {
   const quickLinks = data?.[3] ?? []
   const latestNewsletter = data?.[4] ?? null
 
-  const hour = new Date().getHours()
+  const now = new Date()
+  const hour = now.getHours()
   const greeting =
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening"
+  const today = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  })
 
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold tracking-tight">{greeting}</h1>
-          <p className="text-sm text-muted-foreground mt-1">Here's what's happening across OUES today.</p>
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <div className="mb-8">
+          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            {today}
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{greeting}</h1>
+          <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+            Here's what's happening across OUES today.
+          </p>
         </div>
 
         {/* Quick actions */}
-        <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {QUICK_ACTIONS.map((action) => (
             <a
               key={action.label}
               href={action.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start gap-3 rounded-xl bg-primary p-4 text-primary-foreground transition-opacity hover:opacity-90"
+              className="flex items-start gap-3.5 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
             >
-              <action.icon className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
+              <div className="rounded-lg bg-white/15 p-2">
+                <action.icon className="h-4.5 w-4.5" />
+              </div>
               <div>
                 <p className="text-sm font-semibold leading-tight">{action.label}</p>
-                <p className="mt-0.5 text-xs opacity-70">{action.description}</p>
+                <p className="mt-1 text-xs opacity-70">{action.description}</p>
               </div>
             </a>
           ))}
@@ -94,20 +107,25 @@ export default function App() {
         ) : (
           <>
             {/* Section tiles */}
-            <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="mb-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
               {SECTION_TILES.map((tile) => (
                 <RouterLink
                   key={tile.slug}
                   to={`/sections/${tile.slug}`}
-                  className="group flex h-32 flex-col justify-between rounded-xl border bg-card p-5 transition-colors hover:border-primary/50"
+                  className="group flex flex-col gap-3 rounded-2xl border bg-card p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="rounded-lg bg-accent p-2 text-accent-foreground">
+                    <div className="rounded-xl bg-accent p-2.5 text-accent-foreground">
                       <tile.icon className="h-5 w-5" />
                     </div>
                     <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
                   </div>
-                  <p className="font-semibold leading-tight">{tile.title}</p>
+                  <div>
+                    <p className="font-heading font-semibold leading-tight">{tile.title}</p>
+                    <p className="mt-1 hidden text-xs leading-snug text-muted-foreground sm:block">
+                      {tile.description}
+                    </p>
+                  </div>
                 </RouterLink>
               ))}
             </div>
@@ -119,9 +137,9 @@ export default function App() {
                 {!loading && latestNewsletter && (
                   <RouterLink
                     to={`/newsletter/${latestNewsletter._id}`}
-                    className="group flex flex-col gap-2 rounded-xl border-2 border-primary/20 bg-card p-5 transition-colors hover:border-primary/50"
+                    className="group flex flex-col gap-2 rounded-2xl border-2 border-primary/20 bg-card p-6 shadow-xs transition-all hover:border-primary/50 hover:shadow-sm"
                   >
-                    <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-primary">
+                    <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary">
                       <Newspaper className="h-4 w-4" />
                       Management Newsletter ·{" "}
                       {new Date(latestNewsletter.publishedAt + "T00:00:00").toLocaleDateString("en-US", {
@@ -129,7 +147,7 @@ export default function App() {
                         day: "numeric",
                       })}
                     </div>
-                    <p className="font-semibold leading-snug">{latestNewsletter.title}</p>
+                    <p className="font-heading text-lg font-semibold leading-snug">{latestNewsletter.title}</p>
                     <p className="text-sm text-muted-foreground line-clamp-2">{latestNewsletter.summary}</p>
                     <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
                       Read the latest edition
@@ -139,7 +157,7 @@ export default function App() {
                 )}
 
                 <section>
-                  <h2 className="mb-3 font-semibold">Announcements</h2>
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight">Announcements</h2>
                   {loading ? (
                     <div className="flex flex-col gap-3">
                       {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-28" />)}
@@ -166,7 +184,7 @@ export default function App() {
                 <Separator />
 
                 <section>
-                  <h2 className="mb-3 font-semibold">Upcoming Events</h2>
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight">Upcoming Events</h2>
                   {loading ? (
                     <div className="flex flex-col gap-3">
                       {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />)}
@@ -194,7 +212,7 @@ export default function App() {
               {/* Right column */}
               <div className="flex flex-col gap-6">
                 <section>
-                  <h2 className="mb-3 font-semibold">Quick Links</h2>
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight">Quick Links</h2>
                   {loading ? (
                     <div className="flex flex-col gap-2">
                       {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16" />)}
@@ -219,7 +237,7 @@ export default function App() {
                 <Separator />
 
                 <section>
-                  <h2 className="mb-3 font-semibold">Team Directory</h2>
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight">Team Directory</h2>
                   <Tabs defaultValue="all">
                     <TabsList className="mb-3 w-full">
                       <TabsTrigger value="all" className="flex-1 text-xs">All</TabsTrigger>
