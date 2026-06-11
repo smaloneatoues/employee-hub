@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import type { LucideIcon } from "lucide-react"
-import {
-  ArrowLeft, Laptop, Users, Building2, DollarSign, ShieldCheck,
-  FileText, HelpCircle, BookOpen, Mail, Settings, ExternalLink,
-} from "lucide-react"
+import { ArrowLeft, ExternalLink, HelpCircle } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
-import { getSupportAreas, type SupportArea } from "@/lib/queries"
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  Laptop, Users, Building2, DollarSign, ShieldCheck,
-  FileText, HelpCircle, BookOpen, Mail, Settings,
-}
-
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse rounded bg-muted ${className ?? ""}`} />
-}
+import { ErrorState } from "@/components/error-state"
+import { Skeleton } from "@/components/ui/skeleton"
+import { ICON_MAP } from "@/lib/icons"
+import { getSupportAreas } from "@/lib/queries"
+import { useQuery } from "@/lib/use-query"
 
 export default function SupportPage() {
-  const [areas, setAreas] = useState<SupportArea[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    getSupportAreas().then((a) => {
-      setAreas(a)
-      setLoading(false)
-    })
-  }, [])
+  const { data: areas, loading, error, retry } = useQuery(getSupportAreas)
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,13 +30,15 @@ export default function SupportPage() {
           </p>
         </div>
 
-        {loading ? (
+        {error ? (
+          <ErrorState onRetry={retry} />
+        ) : loading ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
               <Skeleton key={i} className="h-36" />
             ))}
           </div>
-        ) : areas.length === 0 ? (
+        ) : !areas || areas.length === 0 ? (
           <p className="text-sm text-muted-foreground py-10 text-center">
             No support areas configured yet — add some in Sanity Studio.
           </p>
