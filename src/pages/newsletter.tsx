@@ -1,30 +1,16 @@
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { ArrowLeft, ArrowRight, Newspaper } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
-import { getNewsletters, type NewsletterListItem } from "@/lib/queries"
-
-export function formatNewsletterDate(iso: string) {
-  const d = new Date(iso + "T00:00:00")
-  return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-}
-
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse rounded bg-muted ${className ?? ""}`} />
-}
+import { ErrorState } from "@/components/error-state"
+import { Skeleton } from "@/components/ui/skeleton"
+import { getNewsletters } from "@/lib/queries"
+import { useQuery } from "@/lib/use-query"
+import { formatNewsletterDate } from "@/lib/dates"
 
 export default function NewsletterPage() {
-  const [editions, setEditions] = useState<NewsletterListItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const { data: editions, loading, error, retry } = useQuery(getNewsletters)
 
-  useEffect(() => {
-    getNewsletters().then((n) => {
-      setEditions(n)
-      setLoading(false)
-    })
-  }, [])
-
-  const [latest, ...previous] = editions
+  const [latest, ...previous] = editions ?? []
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,13 +32,15 @@ export default function NewsletterPage() {
           </p>
         </div>
 
-        {loading ? (
+        {error ? (
+          <ErrorState onRetry={retry} />
+        ) : loading ? (
           <div className="flex flex-col gap-4">
             <Skeleton className="h-44" />
             <Skeleton className="h-20" />
             <Skeleton className="h-20" />
           </div>
-        ) : editions.length === 0 ? (
+        ) : !latest ? (
           <p className="text-sm text-muted-foreground py-10 text-center">
             No editions published yet — check back soon.
           </p>

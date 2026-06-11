@@ -1,5 +1,4 @@
 import { Link, NavLink } from "react-router-dom"
-import { Bell } from "lucide-react"
 
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
@@ -39,9 +38,6 @@ export function SiteHeader() {
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <button className="relative rounded-full p-1.5 text-muted-foreground hover:text-foreground transition-colors">
-              <Bell className="h-5 w-5" />
-            </button>
             <div className="flex items-center gap-2 text-sm">
               <div className="h-7 w-7 rounded-full bg-accent flex items-center justify-center text-xs font-medium text-accent-foreground">
                 SM

@@ -61,6 +61,19 @@ export interface Newsletter extends NewsletterListItem {
   body: unknown[]
 }
 
+export interface SectionPostListItem {
+  _id: string
+  title: string
+  publishedAt: string
+  author?: string
+  summary: string
+}
+
+export interface SectionPost extends SectionPostListItem {
+  section: string
+  body: unknown[]
+}
+
 export interface Stat {
   _id: string
   title: string
@@ -118,6 +131,20 @@ export async function getNewsletter(id: string): Promise<Newsletter | null> {
 export async function getLatestNewsletter(): Promise<NewsletterListItem | null> {
   return client.fetch(
     `*[_type == "newsletter"] | order(publishedAt desc)[0] { _id, title, publishedAt, author, summary }`
+  )
+}
+
+export async function getSectionPosts(section: string): Promise<SectionPostListItem[]> {
+  return client.fetch(
+    `*[_type == "sectionPost" && section == $section] | order(publishedAt desc) { _id, title, publishedAt, author, summary }`,
+    { section }
+  )
+}
+
+export async function getSectionPost(id: string): Promise<SectionPost | null> {
+  return client.fetch(
+    `*[_type == "sectionPost" && _id == $id][0] { _id, title, publishedAt, author, summary, section, body }`,
+    { id }
   )
 }
 

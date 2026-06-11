@@ -1,6 +1,5 @@
 import { Link as RouterLink } from "react-router-dom"
 import { SiteHeader } from "@/components/site-header"
-import { StatsCard } from "@/components/stats-card"
 import { AnnouncementCard } from "@/components/announcement-card"
 import { TeamMemberCard } from "@/components/team-member-card"
 import { QuickLinkCard } from "@/components/quick-link-card"
@@ -12,12 +11,13 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
-  Users, HelpCircle, FileText, Link,
+  HelpCircle, FileText, Link,
   Newspaper, ArrowRight,
 } from "lucide-react"
 import { ICON_MAP } from "@/lib/icons"
+import { SECTION_LIST } from "@/lib/sections"
 import {
-  getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getStats, getLatestNewsletter,
+  getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getLatestNewsletter,
 } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
 import { urlFor } from "@/lib/sanity"
@@ -26,6 +26,8 @@ const QUICK_ACTIONS = [
   { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u" },
   { label: "OneDesk Support", description: "IT, Ops, and PMO", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals" },
 ]
+
+const SECTION_TILES = SECTION_LIST
 
 function formatEventDate(iso: string) {
   const d = new Date(iso + "T00:00:00")
@@ -44,7 +46,6 @@ export default function App() {
       getEvents(),
       getTeamMembers(),
       getQuickLinks(),
-      getStats(),
       getLatestNewsletter(),
     ])
   )
@@ -52,8 +53,7 @@ export default function App() {
   const events = data?.[1] ?? []
   const teamMembers = data?.[2] ?? []
   const quickLinks = data?.[3] ?? []
-  const stats = data?.[4] ?? []
-  const latestNewsletter = data?.[5] ?? null
+  const latestNewsletter = data?.[4] ?? null
 
   const hour = new Date().getHours()
   const greeting =
@@ -93,24 +93,23 @@ export default function App() {
           <ErrorState onRetry={retry} />
         ) : (
           <>
-            {/* Stats row */}
+            {/* Section tiles */}
             <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-              {loading
-                ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-32" />)
-                : stats.length > 0
-                ? stats.map((s) => (
-                    <StatsCard
-                      key={s._id}
-                      title={s.title}
-                      value={s.value}
-                      change={s.change ?? ""}
-                      changePositive={s.changePositive}
-                      icon={ICON_MAP[s.icon] ?? Users}
-                    />
-                  ))
-                : Array.from({ length: 4 }).map((_, i) => (
-                    <StatsCard key={i} title="" value="" change="" icon={Users} />
-                  ))}
+              {SECTION_TILES.map((tile) => (
+                <RouterLink
+                  key={tile.slug}
+                  to={`/sections/${tile.slug}`}
+                  className="group flex h-32 flex-col justify-between rounded-xl border bg-card p-5 transition-colors hover:border-primary/50"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="rounded-lg bg-accent p-2 text-accent-foreground">
+                      <tile.icon className="h-5 w-5" />
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  </div>
+                  <p className="font-semibold leading-tight">{tile.title}</p>
+                </RouterLink>
+              ))}
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

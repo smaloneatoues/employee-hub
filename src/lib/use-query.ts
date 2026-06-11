@@ -19,6 +19,8 @@ export function useQuery<T>(fetcher: () => Promise<T>, deps: unknown[] = []): Qu
 
   useEffect(() => {
     let cancelled = false
+    // Intentional fetch-on-mount pattern: reset status before each request.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
     setError(false)
     fetcher()

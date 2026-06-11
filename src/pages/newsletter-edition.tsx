@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { ArrowLeft } from "lucide-react"
 import { PortableText, type PortableTextComponents } from "@portabletext/react"
 import { SiteHeader } from "@/components/site-header"
-import { getNewsletter, type Newsletter } from "@/lib/queries"
+import { ErrorState } from "@/components/error-state"
+import { Skeleton } from "@/components/ui/skeleton"
+import { getNewsletter } from "@/lib/queries"
+import { useQuery } from "@/lib/use-query"
 import { urlFor } from "@/lib/sanity"
-import { formatNewsletterDate } from "./newsletter"
+import { formatNewsletterDate } from "@/lib/dates"
 
 const components: PortableTextComponents = {
   block: {
@@ -45,22 +47,12 @@ const components: PortableTextComponents = {
   },
 }
 
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse rounded bg-muted ${className ?? ""}`} />
-}
-
 export default function NewsletterEditionPage() {
   const { id } = useParams<{ id: string }>()
-  const [edition, setEdition] = useState<Newsletter | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    if (!id) return
-    getNewsletter(id).then((n) => {
-      setEdition(n)
-      setLoading(false)
-    })
-  }, [id])
+  const { data: edition, loading, error, retry } = useQuery(
+    () => (id ? getNewsletter(id) : Promise.resolve(null)),
+    [id]
+  )
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,7 +67,9 @@ export default function NewsletterEditionPage() {
           All editions
         </Link>
 
-        {loading ? (
+        {error ? (
+          <ErrorState onRetry={retry} />
+        ) : loading ? (
           <div className="flex flex-col gap-4">
             <Skeleton className="h-10 w-3/4" />
             <Skeleton className="h-4 w-1/3" />
