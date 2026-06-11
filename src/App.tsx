@@ -6,6 +6,7 @@ import { TeamMemberCard } from "@/components/team-member-card"
 import { QuickLinkCard } from "@/components/quick-link-card"
 import { EventCard } from "@/components/event-card"
 import { ErrorState } from "@/components/error-state"
+import { AskQuestionDialog } from "@/components/ask-question-dialog"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -24,7 +25,6 @@ import { urlFor } from "@/lib/sanity"
 const QUICK_ACTIONS = [
   { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u" },
   { label: "OneDesk Support", description: "IT, Ops, and PMO", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals" },
-  { label: "Submit a Question", description: "Ask HR, IT, or management", icon: HelpCircle, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2FzRvwcc_6xJj-43KcbQEExUMUExU0JCWktQVE9LOUpQWU8zWlI1UzdONy4u" },
 ]
 
 function formatEventDate(iso: string) {
@@ -86,6 +86,7 @@ export default function App() {
               </div>
             </a>
           ))}
+          <AskQuestionDialog />
         </div>
 
         {error ? (
