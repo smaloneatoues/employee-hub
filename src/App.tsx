@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
-  HelpCircle, FileText, Link,
+  HelpCircle, FileText, FolderOpen, Link,
   Newspaper, ArrowRight,
 } from "lucide-react"
 import { ICON_MAP } from "@/lib/icons"
@@ -23,8 +23,9 @@ import { useQuery } from "@/lib/use-query"
 import { urlFor } from "@/lib/sanity"
 
 const QUICK_ACTIONS = [
-  { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u" },
-  { label: "OneDesk Support", description: "IT, Ops, and PMO", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals" },
+  { label: "Submit a Request", description: "Budget, resource, or project", icon: FileText, href: "https://forms.office.com/Pages/ResponsePage.aspx?id=41uzNOLEIE2JwUQ51Znx2AF2zTeT8ghDrP5HnFxrtVZURjEyQlpWMFRDRTlOSTU3RUdJSElBWTlXMC4u", internal: false },
+  { label: "OneDesk Support", description: "IT, Ops, and PMO", icon: HelpCircle, href: "https://oues.atlassian.net/servicedesk/customer/portals", internal: false },
+  { label: "Company Documents", description: "Policies, forms, and guides", icon: FolderOpen, href: "/documents", internal: true },
 ]
 
 const SECTION_TILES = SECTION_LIST
@@ -81,24 +82,37 @@ export default function App() {
         </div>
 
         {/* Quick actions */}
-        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {QUICK_ACTIONS.map((action) => (
-            <a
-              key={action.label}
-              href={action.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-start gap-3.5 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <div className="rounded-lg bg-white/15 p-2">
-                <action.icon className="h-4.5 w-4.5" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold leading-tight">{action.label}</p>
-                <p className="mt-1 text-xs opacity-70">{action.description}</p>
-              </div>
-            </a>
-          ))}
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {QUICK_ACTIONS.map((action) => {
+            const cardClass =
+              "flex items-start gap-3.5 rounded-2xl bg-primary p-5 text-primary-foreground shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
+            const inner = (
+              <>
+                <div className="rounded-lg bg-white/15 p-2">
+                  <action.icon className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold leading-tight">{action.label}</p>
+                  <p className="mt-1 text-xs opacity-70">{action.description}</p>
+                </div>
+              </>
+            )
+            return action.internal ? (
+              <RouterLink key={action.label} to={action.href} className={cardClass}>
+                {inner}
+              </RouterLink>
+            ) : (
+              <a
+                key={action.label}
+                href={action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClass}
+              >
+                {inner}
+              </a>
+            )
+          })}
           <AskQuestionDialog />
         </div>
 

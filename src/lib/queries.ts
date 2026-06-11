@@ -74,6 +74,17 @@ export interface SectionPost extends SectionPostListItem {
   body: unknown[]
 }
 
+export interface CompanyDocument {
+  _id: string
+  title: string
+  category: string
+  description?: string
+  url?: string
+  fileUrl?: string
+  pinned: boolean
+  lastUpdated?: string
+}
+
 export interface Stat {
   _id: string
   title: string
@@ -145,6 +156,14 @@ export async function getSectionPost(id: string): Promise<SectionPost | null> {
   return client.fetch(
     `*[_type == "sectionPost" && _id == $id][0] { _id, title, publishedAt, author, summary, section, body }`,
     { id }
+  )
+}
+
+export async function getCompanyDocuments(): Promise<CompanyDocument[]> {
+  return client.fetch(
+    `*[_type == "companyDocument"] | order(pinned desc, title asc) {
+      _id, title, category, description, url, "fileUrl": file.asset->url, pinned, lastUpdated
+    }`
   )
 }
 

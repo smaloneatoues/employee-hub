@@ -9,6 +9,7 @@ import NewsletterEditionPage from './pages/newsletter-edition.tsx'
 import NotFoundPage from './pages/not-found.tsx'
 import SectionPage from './pages/section.tsx'
 import SectionPostPage from './pages/section-post.tsx'
+import DocumentsPage from './pages/documents.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/newsletter/:id" element={<NewsletterEditionPage />} />
         <Route path="/sections/:slug" element={<SectionPage />} />
         <Route path="/sections/:slug/:id" element={<SectionPostPage />} />
+        <Route path="/documents" element={<DocumentsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
