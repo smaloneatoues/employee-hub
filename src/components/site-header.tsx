@@ -6,6 +6,29 @@ const NAV_ITEMS = [
   { label: "Support", to: "/support" },
 ]
 
+function NavPills({ className }: { className?: string }) {
+  return (
+    <nav className={className}>
+      {NAV_ITEMS.map((item) => (
+        <NavLink
+          key={item.to}
+          to={item.to}
+          end={item.to === "/"}
+          className={({ isActive }) =>
+            `shrink-0 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+              isActive
+                ? "bg-accent font-medium text-accent-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          {item.label}
+        </NavLink>
+      ))}
+    </nav>
+  )
+}
+
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-10 border-b bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/75">
@@ -20,24 +43,7 @@ export function SiteHeader() {
                 OUES Helio
               </span>
             </Link>
-            <nav className="hidden items-center gap-1 md:flex">
-              {NAV_ITEMS.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.to === "/"}
-                  className={({ isActive }) =>
-                    `rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                      isActive
-                        ? "bg-accent font-medium text-accent-foreground"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              ))}
-            </nav>
+            <NavPills className="hidden items-center gap-1 md:flex" />
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 text-sm">
@@ -48,6 +54,8 @@ export function SiteHeader() {
             </div>
           </div>
         </div>
+        {/* Mobile nav — second row, scrollable */}
+        <NavPills className="-mx-1 flex items-center gap-1 overflow-x-auto pb-3 md:hidden" />
       </div>
     </header>
   )

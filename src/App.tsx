@@ -107,7 +107,7 @@ export default function App() {
         ) : (
           <>
             {/* Section tiles */}
-            <div className="mb-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="mb-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
               {SECTION_TILES.map((tile) => (
                 <RouterLink
                   key={tile.slug}
@@ -130,9 +130,9 @@ export default function App() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {/* Left column */}
-              <div className="lg:col-span-2 flex flex-col gap-6">
+              <div className="md:col-span-2 flex flex-col gap-6">
                 {/* Latest management newsletter */}
                 {!loading && latestNewsletter && (
                   <RouterLink

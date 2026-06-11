@@ -128,6 +128,13 @@
     }
   html {
     @apply font-sans;
+    /* Larger base type: every rem-based size and spacing scales from here */
+    font-size: 17px;
+    }
+  @media (min-width: 1024px) {
+    html {
+      font-size: 18px;
+      }
     }
   h1, h2, h3 {
     @apply font-heading;
