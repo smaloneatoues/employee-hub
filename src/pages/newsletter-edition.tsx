@@ -6,6 +6,7 @@ import { ErrorState } from "@/components/error-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getNewsletter } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 import { urlFor } from "@/lib/sanity"
 import { formatNewsletterDate } from "@/lib/dates"
 
@@ -53,6 +54,7 @@ export default function NewsletterEditionPage() {
     () => (id ? getNewsletter(id) : Promise.resolve(null)),
     [id]
   )
+  usePageTitle(edition?.title ?? "Newsletter")
 
   return (
     <div className="min-h-screen bg-background">

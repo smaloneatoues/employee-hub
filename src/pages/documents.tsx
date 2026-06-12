@@ -6,10 +6,12 @@ import { ErrorState } from "@/components/error-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getCompanyDocuments } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 import { formatNewsletterDate } from "@/lib/dates"
 
 export default function DocumentsPage() {
   const { data: docs, loading, error, retry } = useQuery(getCompanyDocuments)
+  usePageTitle("Company Documents")
   const [category, setCategory] = useState("All")
   const [search, setSearch] = useState("")
 

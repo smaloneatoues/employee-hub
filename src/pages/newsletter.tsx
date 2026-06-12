@@ -6,10 +6,12 @@ import { ErrorState } from "@/components/error-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getNewsletters } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 import { formatNewsletterDate } from "@/lib/dates"
 
 export default function NewsletterPage() {
   const { data: editions, loading, error, retry } = useQuery(getNewsletters)
+  usePageTitle("Newsletter")
 
   const [latest, ...previous] = editions ?? []
 

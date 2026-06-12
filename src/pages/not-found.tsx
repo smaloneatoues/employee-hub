@@ -2,8 +2,10 @@ import { Link } from "react-router-dom"
 import { ArrowLeft, Compass } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
+import { usePageTitle } from "@/lib/use-page-title"
 
 export default function NotFoundPage() {
+  usePageTitle("Page not found")
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />

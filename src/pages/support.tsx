@@ -6,9 +6,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { ICON_MAP } from "@/lib/icons"
 import { getSupportAreas } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 
 export default function SupportPage() {
   const { data: areas, loading, error, retry } = useQuery(getSupportAreas)
+  usePageTitle("Support")
 
   return (
     <div className="min-h-screen bg-background">

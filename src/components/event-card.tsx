@@ -1,9 +1,12 @@
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, Clock, MapPin } from "lucide-react"
+import { downloadCalendarEvent } from "@/lib/calendar"
 
 interface EventCardProps {
+  id: string
   title: string
   date: string
+  isoDate: string
   time: string
   location: string
   category: string
@@ -11,8 +14,10 @@ interface EventCardProps {
 }
 
 export function EventCard({
+  id,
   title,
   date,
+  isoDate,
   time,
   location,
   category,
@@ -41,10 +46,13 @@ export function EventCard({
             <MapPin className="h-3 w-3" />
             <span>{location}</span>
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <button
+            onClick={() => downloadCalendarEvent({ id, title, isoDate, time, location, description })}
+            className="-mx-1.5 -my-1 flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-accent"
+          >
             <CalendarDays className="h-3 w-3" />
             <span>Add to calendar</span>
-          </div>
+          </button>
         </div>
       </div>
     </div>

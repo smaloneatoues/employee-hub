@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   HelpCircle, FileText, FolderOpen, Link,
-  Newspaper, ArrowRight,
+  Newspaper, ArrowRight, ExternalLink,
 } from "lucide-react"
 import { ICON_MAP } from "@/lib/icons"
 import { SECTION_LIST } from "@/lib/sections"
@@ -129,10 +129,13 @@ export default function App() {
                 <div className="rounded-lg bg-white/15 p-2">
                   <action.icon className="h-4.5 w-4.5" />
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold leading-tight">{action.label}</p>
                   <p className="mt-1 text-xs opacity-70">{action.description}</p>
                 </div>
+                {!action.internal && (
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0 opacity-50" />
+                )}
               </>
             )
             return action.internal ? (
@@ -248,8 +251,10 @@ export default function App() {
                       {events.map((e) => (
                         <EventCard
                           key={e._id}
+                          id={e._id}
                           title={e.title}
                           date={formatEventDate(e.date)}
+                          isoDate={e.date}
                           time={e.time}
                           location={e.location}
                           category={e.category}

@@ -6,6 +6,7 @@ import { PortableTextBody } from "@/components/portable-text-body"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getSectionPost } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 import { SECTIONS } from "@/lib/sections"
 import { formatNewsletterDate } from "@/lib/dates"
 import NotFoundPage from "./not-found"
@@ -18,6 +19,7 @@ export default function SectionPostPage() {
     () => (id ? getSectionPost(id) : Promise.resolve(null)),
     [id]
   )
+  usePageTitle(post?.title ?? section?.title)
 
   if (!section) return <NotFoundPage />
 

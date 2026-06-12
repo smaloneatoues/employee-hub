@@ -6,6 +6,7 @@ import { ErrorState } from "@/components/error-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getSectionPosts } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
+import { usePageTitle } from "@/lib/use-page-title"
 import { SECTIONS } from "@/lib/sections"
 import { formatNewsletterDate } from "@/lib/dates"
 import NotFoundPage from "./not-found"
@@ -18,6 +19,7 @@ export default function SectionPage() {
     () => (section ? getSectionPosts(section.slug) : Promise.resolve([])),
     [slug]
   )
+  usePageTitle(section?.title)
 
   if (!section) return <NotFoundPage />
   const Icon = section.icon
