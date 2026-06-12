@@ -1,7 +1,7 @@
-import { Link, useParams } from "react-router-dom"
-import { ArrowLeft } from "lucide-react"
+import { useParams } from "react-router-dom"
 import { PortableText, type PortableTextComponents } from "@portabletext/react"
 import { SiteHeader } from "@/components/site-header"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 import { ErrorState } from "@/components/error-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getNewsletter } from "@/lib/queries"
@@ -59,13 +59,13 @@ export default function NewsletterEditionPage() {
       <SiteHeader />
 
       <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
-        <Link
-          to="/newsletter"
-          className="mb-6 -mx-2.5 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          All editions
-        </Link>
+        <Breadcrumbs
+          items={[
+            { label: "Helio", to: "/" },
+            { label: "Newsletter", to: "/newsletter" },
+            { label: edition?.title ?? "Edition" },
+          ]}
+        />
 
         {error ? (
           <ErrorState onRetry={retry} />
