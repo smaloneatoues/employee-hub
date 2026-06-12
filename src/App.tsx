@@ -1,15 +1,12 @@
 import { Link as RouterLink } from "react-router-dom"
 import { SiteHeader } from "@/components/site-header"
 import { AnnouncementCard } from "@/components/announcement-card"
-import { TeamMemberCard } from "@/components/team-member-card"
 import { QuickLinkCard } from "@/components/quick-link-card"
 import { EventCard } from "@/components/event-card"
 import { ErrorState } from "@/components/error-state"
 import { AskQuestionDialog } from "@/components/ask-question-dialog"
 import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   HelpCircle, FileText, FolderOpen, Link,
   Newspaper, ArrowRight,
@@ -17,7 +14,8 @@ import {
 import { ICON_MAP } from "@/lib/icons"
 import { SECTION_LIST } from "@/lib/sections"
 import {
-  getAnnouncements, getEvents, getTeamMembers, getQuickLinks, getLatestNewsletter,
+  getAnnouncements, getEvents, getPeopleUpdates, getQuickLinks, getLatestNewsletter,
+  type PeopleUpdate,
 } from "@/lib/queries"
 import { useQuery } from "@/lib/use-query"
 import { urlFor } from "@/lib/sanity"
@@ -40,21 +38,61 @@ function formatAnnouncementDate(iso: string) {
   return `${d.toLocaleString("en-AU", { month: "short" })} ${d.getDate()}`
 }
 
+function formatPeopleDate(iso: string) {
+  const d = new Date(iso + "T00:00:00")
+  return d.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+}
+
+function PersonRow({ person, meta }: { person: PeopleUpdate; meta: string }) {
+  const initials = person.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase()
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border bg-card p-3 shadow-xs">
+      {person.photo ? (
+        <img
+          src={urlFor(person.photo).width(80).height(80).url()}
+          alt={person.name}
+          className="h-10 w-10 shrink-0 rounded-full object-cover"
+        />
+      ) : (
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-medium text-accent-foreground">
+          {initials}
+        </div>
+      )}
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold">{person.name}</p>
+        <p className="truncate text-xs text-muted-foreground">
+          {[person.role, person.department].filter(Boolean).join(" · ") || meta}
+        </p>
+        {(person.role || person.department) && (
+          <p className="truncate text-xs text-muted-foreground/80">{meta}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const { data, loading, error, retry } = useQuery(() =>
     Promise.all([
       getAnnouncements(),
       getEvents(),
-      getTeamMembers(),
+      getPeopleUpdates(),
       getQuickLinks(),
       getLatestNewsletter(),
     ])
   )
   const announcements = data?.[0] ?? []
   const events = data?.[1] ?? []
-  const teamMembers = data?.[2] ?? []
+  const peopleUpdates = data?.[2] ?? []
   const quickLinks = data?.[3] ?? []
   const latestNewsletter = data?.[4] ?? null
+  const newHires = peopleUpdates.filter((p) => p.kind === "new-hire")
+  const anniversaries = peopleUpdates.filter((p) => p.kind === "anniversary")
 
   const now = new Date()
   const hour = now.getHours()
@@ -177,7 +215,7 @@ export default function App() {
                       {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-28" />)}
                     </div>
                   ) : announcements.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-6 text-center">No announcements yet — add some in Sanity Studio.</p>
+                    <p className="text-sm text-muted-foreground py-6 text-center">All quiet for now — check back soon.</p>
                   ) : (
                     <div className="flex flex-col gap-3">
                       {announcements.map((a) => (
@@ -204,7 +242,7 @@ export default function App() {
                       {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />)}
                     </div>
                   ) : events.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-6 text-center">No upcoming events — add some in Sanity Studio.</p>
+                    <p className="text-sm text-muted-foreground py-6 text-center">Nothing on the calendar just yet.</p>
                   ) : (
                     <div className="flex flex-col gap-3">
                       {events.map((e) => (
@@ -232,7 +270,7 @@ export default function App() {
                       {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16" />)}
                     </div>
                   ) : quickLinks.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-4 text-center">Add quick links in Sanity Studio.</p>
+                    <p className="text-sm text-muted-foreground py-4 text-center">Links are on their way.</p>
                   ) : (
                     <div className="flex flex-col gap-2">
                       {quickLinks.map((l) => (
@@ -252,46 +290,47 @@ export default function App() {
                 <Separator />
 
                 <section>
-                  <h2 className="mb-4 text-xl font-semibold tracking-tight">Team Directory</h2>
-                  <Tabs defaultValue="all">
-                    <TabsList className="mb-3 w-full">
-                      <TabsTrigger value="all" className="flex-1 text-sm">All</TabsTrigger>
-                      <TabsTrigger value="available" className="flex-1 text-sm">Available</TabsTrigger>
-                    </TabsList>
-                    {["all", "available"].map((tab) => (
-                      <TabsContent key={tab} value={tab}>
-                        <ScrollArea className="h-[420px] pr-2">
-                          {loading ? (
-                            <div className="flex flex-col gap-2">
-                              {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-20" />)}
-                            </div>
-                          ) : (
-                            <div className="flex flex-col gap-2">
-                              {teamMembers
-                                .filter((m) => tab === "all" || m.status === "available")
-                                .map((m) => (
-                                  <TeamMemberCard
-                                    key={m._id}
-                                    name={m.name}
-                                    role={m.role}
-                                    department={m.department}
-                                    email={m.email}
-                                    phone={m.phone}
-                                    avatar={m.avatar ? urlFor(m.avatar).width(80).url() : undefined}
-                                    status={m.status}
-                                  />
-                                ))}
-                              {teamMembers.filter((m) => tab === "all" || m.status === "available").length === 0 && (
-                                <p className="text-sm text-muted-foreground py-4 text-center">
-                                  {tab === "available" ? "No one available right now." : "Add team members in Sanity Studio."}
-                                </p>
-                              )}
-                            </div>
-                          )}
-                        </ScrollArea>
-                      </TabsContent>
-                    ))}
-                  </Tabs>
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight">People</h2>
+                  {loading ? (
+                    <div className="flex flex-col gap-2">
+                      {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-16" />)}
+                    </div>
+                  ) : peopleUpdates.length === 0 ? (
+                    <p className="text-sm text-muted-foreground py-4 text-center">
+                      No new faces or milestones this week.
+                    </p>
+                  ) : (
+                    <div className="flex flex-col gap-5">
+                      {newHires.length > 0 && (
+                        <div>
+                          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                            New to OUES
+                          </p>
+                          <div className="flex flex-col gap-2">
+                            {newHires.map((p) => (
+                              <PersonRow key={p._id} person={p} meta={`Started ${formatPeopleDate(p.date)}`} />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {anniversaries.length > 0 && (
+                        <div>
+                          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                            Work Anniversaries
+                          </p>
+                          <div className="flex flex-col gap-2">
+                            {anniversaries.map((p) => (
+                              <PersonRow
+                                key={p._id}
+                                person={p}
+                                meta={`${p.years ? `${p.years} year${p.years === 1 ? "" : "s"} · ` : ""}${formatPeopleDate(p.date)}`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </section>
               </div>
             </div>

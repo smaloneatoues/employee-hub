@@ -40,7 +40,7 @@ export default function SupportPage() {
           </div>
         ) : !areas || areas.length === 0 ? (
           <p className="text-sm text-muted-foreground py-10 text-center">
-            No support areas configured yet — add some in Sanity Studio.
+            Support areas are being set up — check back soon.
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -74,6 +74,17 @@ export interface SectionPost extends SectionPostListItem {
   body: unknown[]
 }
 
+export interface PeopleUpdate {
+  _id: string
+  kind: "new-hire" | "anniversary"
+  name: string
+  role?: string
+  department?: string
+  date: string
+  years?: number
+  photo?: { asset: { _ref: string } }
+}
+
 export interface CompanyDocument {
   _id: string
   title: string
@@ -156,6 +167,12 @@ export async function getSectionPost(id: string): Promise<SectionPost | null> {
   return client.fetch(
     `*[_type == "sectionPost" && _id == $id][0] { _id, title, publishedAt, author, summary, section, body }`,
     { id }
+  )
+}
+
+export async function getPeopleUpdates(): Promise<PeopleUpdate[]> {
+  return client.fetch(
+    `*[_type == "peopleUpdate"] | order(date desc)[0...12] { _id, kind, name, role, department, date, years, photo }`
   )
 }
 

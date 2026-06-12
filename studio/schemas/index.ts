@@ -8,5 +8,6 @@ import newsletter from "./newsletter"
 import question from "./question"
 import sectionPost from "./sectionPost"
 import companyDocument from "./companyDocument"
+import peopleUpdate from "./peopleUpdate"
 
-export const schemaTypes = [announcement, event, teamMember, quickLink, stat, supportArea, newsletter, question, sectionPost, companyDocument]
+export const schemaTypes = [announcement, event, teamMember, quickLink, stat, supportArea, newsletter, question, sectionPost, companyDocument, peopleUpdate]

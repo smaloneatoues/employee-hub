@@ -63,7 +63,7 @@ export default function DocumentsPage() {
           </div>
         ) : (docs ?? []).length === 0 ? (
           <p className="text-sm text-muted-foreground py-10 text-center">
-            No documents yet — add some in Sanity Studio.
+            The library is being stocked — check back soon.
           </p>
         ) : (
           <>
